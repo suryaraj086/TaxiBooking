@@ -45,7 +45,10 @@ public class TaxiBooking {
 		}
 		Taxi booked = getNearestTaxi(temp, currPoint);
 		booked.setStatus(TaxiState.BUSY);
+		booked.setPosition(toPoint);
 		int amount = paymentCalculator(currPoint, toPoint);
+		int earned = booked.getAmountEarned();
+		booked.setAmountEarned(earned + amount);
 		TaxiHistory temp1 = historySetter(pickupTime, currPoint, toPoint, amount, k++, customerid);
 		addToHistory(temp1, booked);
 		return "Booked successfully and the amount to pay is " + amount;
@@ -133,6 +136,16 @@ public class TaxiBooking {
 		return false;
 	}
 
+	public void changeStatus(int taxino) {
+		for (int i = 0; i < taxi.size(); i++) {
+			Taxi obj = taxi.get(i);
+			if (obj.getTaxiNumber() == taxino) {
+				obj.setStatus(TaxiState.IDLE);
+			}
+
+		}
+	}
+
 	public boolean timeChecker(long pickuptime, Taxi taxiObj, char pickupPoint) {
 		char temp = taxiObj.getPosition();
 		long currtime = 0;
@@ -157,7 +170,7 @@ public class TaxiBooking {
 		String out = "";
 		Set<Integer> key = history.keySet();
 		for (int val : key) {
-			out += history.get(val).toString();
+			out += "Taxi number " + val + " " + history.get(val).toString();
 		}
 		return out;
 	}

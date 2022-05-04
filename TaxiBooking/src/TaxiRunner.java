@@ -7,13 +7,16 @@ public class TaxiRunner {
 		System.out.println("Enter number of taxi's you want to create");
 		Scanner scan = new Scanner(System.in);
 		int taxi = scan.nextInt();
-		for (int i = 0; i < taxi; i++) {
+		Taxi taxiobj = new Taxi();
+		taxiobj.setPosition('B');
+		tObj.createTaxi(taxiobj);
+		for (int i = 0; i < taxi - 1; i++) {
 			Taxi taxipojo = new Taxi();
 			tObj.createTaxi(taxipojo);
 		}
 		boolean bool = true;
 		while (bool) {
-			System.out.println("1.Book taxi\n2.Print taxi details");
+			System.out.println("1.Book taxi\n2.Print taxi details\n3.Change state to idle");
 			int val = scan.nextInt();
 			switch (val) {
 			case 1:
@@ -30,6 +33,11 @@ public class TaxiRunner {
 				System.out.println(tObj.printTaxiDetails());
 				break;
 
+			case 3:
+				System.out.println("Enter the taxi number to change status");
+				int taxino = scan.nextInt();
+				tObj.changeStatus(taxino);
+				break;
 			default:
 				bool = false;
 				break;
